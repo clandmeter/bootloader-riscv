@@ -645,6 +645,13 @@ function build_rv_kernel()
 	fi
 
 	pushd $RV_KERNEL_SRC_DIR
+
+	# copy missing defconfig from 6.6
+	if [ "$BRANCH" = "sg2042-dev-6.12" ]; then
+		wget https://raw.githubusercontent.com/sophgo/linux-riscv/refs/heads/sg2042-dev-6.6/arch/riscv/configs/sophgo_mango_normal_defconfig \
+			-O arch/riscv/configs/sophgo_mango_normal_defconfig
+	fi
+
 	make O=$RV_KERNEL_BUILD_DIR ARCH=riscv CROSS_COMPILE=$RISCV64_LINUX_CROSS_COMPILE $RV_KERNEL_CONFIG
 	err=$?
 	popd
